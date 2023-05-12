@@ -1,4 +1,4 @@
-package com.softwareit.geographicatlas.ui
+package com.softwareit.geographicatlas.ui.countriesList
 
 import android.os.Bundle
 import android.view.LayoutInflater
