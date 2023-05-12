@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Geographic atlas</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_from_detailed_screen">Hello from Detailed screen</string>
+    <string name="hello_from_home_screen">Hello from home screen</string>
 </resources>

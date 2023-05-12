@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/CountriesList">
+
+    <fragment
+        android:id="@+id/CountriesList"
+        android:name="com.softwareit.geographicatlas.ui.CountriesList"
+        android:label="World Countries"
+        tools:layout="@layout/fragment_countries_list">
+        <action
+            android:id="@+id/action_CountriesList_to_CountryDetails"
+            app:destination="@id/CountryDetails" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CountryDetails"
+        android:name="com.softwareit.geographicatlas.ui.CountryDetails"
+        android:label="Country Details"
+        tools:layout="@layout/fragment_country_details" />
+
+</navigation>
