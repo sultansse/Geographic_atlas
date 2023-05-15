@@ -63,7 +63,6 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.fragment:fragment-ktx:1.5.7"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
 
     // Coroutines
     def coroutines_version = "1.7.1"

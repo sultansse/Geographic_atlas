@@ -1,7 +1,5 @@
 package com.softwareit.geographicatlas.data.model
 
-import androidx.room.PrimaryKey
-
 
 data class Country(
 
@@ -26,9 +24,9 @@ data class Country(
       @SerializedName("flag")
       val flag: String*/
 
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val area: Int,
+//    @PrimaryKey(autoGenerate = true)
+//    val id: Long = 0,
+    val area: Double,
     val capital: List<String>,
     val cca2: String,
     val continents: List<String>,
@@ -37,7 +35,7 @@ data class Country(
     val latlng: List<Double>,
 //  val maps: Maps,
     val name: Name,
-    val population: Int,
+    val population: Long,
     val region: String,
 )
 
