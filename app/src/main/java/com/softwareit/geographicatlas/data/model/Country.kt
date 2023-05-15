@@ -30,7 +30,7 @@ data class Country(
     val capital: List<String>,
     val cca2: String,
     val continents: List<String>,
-//    val currencies: Currencies,
+    val currencies: Currencies,
     val flags: Flags,
     val latlng: List<Double>,
 //  val maps: Maps,

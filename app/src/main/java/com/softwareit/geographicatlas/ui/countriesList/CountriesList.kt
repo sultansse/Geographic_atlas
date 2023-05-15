@@ -72,9 +72,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class CountriesList : Fragment() {
 
     private val viewModel: CountriesListViewModel by viewModels()
-    private lateinit var countriesAdapter: CountriesAdapter
     private var _binding: FragmentCountriesListBinding? = null
     private val binding get() = _binding!!
+    private lateinit var countriesAdapter: CountriesAdapter
     private lateinit var countriesService: CountriesService
 
     override fun onCreateView(
@@ -90,7 +90,6 @@ class CountriesList : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        countriesService = RetrofitInstance.retrofit.create(CountriesService::class.java)
-
         countriesAdapter = CountriesAdapter()
 
         binding.countriesListRecyclerView.apply {
@@ -98,11 +97,12 @@ class CountriesList : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
+
         viewModel.remoteAllCountries.observe(viewLifecycleOwner) {
             countriesAdapter.submitList(it)
         }
-
     }
+
 
 //    private fun readDatabase() {
 //        lifecycleScope.launch{
@@ -126,4 +126,5 @@ class CountriesList : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
