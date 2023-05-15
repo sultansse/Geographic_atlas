@@ -33,7 +33,7 @@ class CountriesAdapter : ListAdapter<Country, CountriesAdapter.CountryViewHolder
 
                 loadImgUrl(flagIv, country.flags.png)
                 countryNameTv.text = country.name.common
-                capitalNameTv.text = "Capital: ${country.capital[0]}"
+                capitalNameTv.text = "Capital: ${country?.capital?.get(0) ?: "NO capital"}"
                 tvPopulation.text = "Population: ${country.population}"
                 tvArea.text = "Area: ${country.area} km²"
                 tvCurrencies.text = "Currencies: 0000"
