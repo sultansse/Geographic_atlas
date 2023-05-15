@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.softwareit.geographicatlas.data.model.Country
+import com.softwareit.geographicatlas.data.model.CountryItem
 import com.softwareit.geographicatlas.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +54,7 @@ class CountriesListViewModel @Inject constructor(
 
 //    var countriesResponse: MutableLiveData<Resource<Country>> = MutableLiveData()
 
-    val remoteAllCountries: MutableLiveData<List<Country>> = MutableLiveData()
+    val remoteAllCountries: MutableLiveData<List<CountryItem>> = MutableLiveData()
 
     init {
         getAllCountries()
@@ -62,7 +63,35 @@ class CountriesListViewModel @Inject constructor(
     fun getAllCountries() {
         viewModelScope.launch(Dispatchers.IO) {
 //            getCountriesSafeCall()
-                remoteAllCountries.postValue(repository.remote.getAllCountries())
+            val countriesList = repository.remote.getAllCountries()
+            // group by continent
+            val groupedCountries = countriesList.groupBy { it.continent }
+            // map to list of Country class
+            val continentGroups = countriesList.flatMap { country ->
+                country.continent.map { continent -> continent to country }
+            }.groupBy({ it.first }, { it.second }).toSortedMap()
+
+            val countryItems = mutableListOf<CountryItem>()
+            continentGroups.forEach { (continent, countryNetworkModels) ->
+                countryItems.add(CountryItem.HeaderItem(continent))
+                countryNetworkModels.forEach {
+                    countryItems.add(CountryItem.CountryWrapper(
+                        Country(
+                            area = it.area,
+                            capital = it.capital,
+                            cca2 = it.cca2,
+                            continent = it.continent,
+                            currencies = it.currencies,
+                            flags = it.flags,
+                            latlng = it.latlng,
+                            name = it.name,
+                            population = it.population,
+                            region = it.region,
+                        )
+                    ))
+                }
+            }
+            remoteAllCountries.postValue(countryItems)
 //            withContext(Dispatchers.IO) {}
         }
     }

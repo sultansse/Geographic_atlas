@@ -1,17 +1,17 @@
 package com.softwareit.geographicatlas.data.remote
 
-import com.softwareit.geographicatlas.data.model.Country
+import com.softwareit.geographicatlas.data.model.CountryNetworkModel
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val countryService: CountriesService
 ) {
 
-    suspend fun getAllCountries(): List<Country> {
+    suspend fun getAllCountries(): List<CountryNetworkModel> {
         return countryService.getAllCountries()
     }
 
-    suspend fun getCountry(countryName: String): Country {
+    suspend fun getCountryNetworkModel(countryName: String): CountryNetworkModel {
         return countryService.getCountry(countryName)
     }
 }

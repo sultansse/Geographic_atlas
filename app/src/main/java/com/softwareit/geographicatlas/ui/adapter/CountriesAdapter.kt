@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.softwareit.geographicatlas.R
 import com.softwareit.geographicatlas.data.model.Country
+import com.softwareit.geographicatlas.data.model.CountryItem
 import com.softwareit.geographicatlas.databinding.CountryListItemBinding
 import com.softwareit.geographicatlas.utils.loadImgUrl
 
-class CountriesAdapter : ListAdapter<Country, CountriesAdapter.CountryViewHolder>(CountryComporator()) {
+class CountriesAdapter : ListAdapter<CountryItem, CountriesAdapter.CountryViewHolder>(CountryComporator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
         val binding =
@@ -19,11 +20,22 @@ class CountriesAdapter : ListAdapter<Country, CountriesAdapter.CountryViewHolder
         return CountryViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
+    override fun onBindViewHolder(countryHolder: CountryViewHolder, headerHolder: HeaderViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
-            holder.bind(currentItem)
+            countryHolder.bind(currentItem)
+            headerHolder.bind(currentItem)
         }
+
+    }
+
+    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(continent: String) {
+//            binding.apply {
+//                headerTv.text = continent
+//            }
+        }
+
     }
 
     class CountryViewHolder(private val binding: CountryListItemBinding) : RecyclerView.ViewHolder(binding.root) {
