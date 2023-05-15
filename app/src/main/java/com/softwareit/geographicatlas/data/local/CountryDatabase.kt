@@ -1,11 +1,5 @@
 package com.softwareit.geographicatlas.data.local
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.softwareit.geographicatlas.data.local.dao.CountryDao
-import com.softwareit.geographicatlas.data.local.entities.CountryEntity
-
 /*@Database(entities = [Country::class], version = 1)
 abstract class CountryDatabase: RoomDatabase() {
     abstract fun countryDao(): CountryDao
@@ -24,9 +18,9 @@ abstract class CountryDatabase: RoomDatabase() {
     }
 }*/
 
-@Database(entities = [CountryEntity::class], version = 1)
-@TypeConverters(CountryTypeConverter::class)
-abstract class CountryDatabase : RoomDatabase() {
-
-    abstract fun countryDao(): CountryDao
-}
+//@Database(entities = [CountryEntity::class], version = 1)
+////@TypeConverters(CountryTypeConverter::class)
+//abstract class CountryDatabase : RoomDatabase() {
+//
+//    abstract fun countryDao(): CountryDao
+//}

@@ -1,15 +1,13 @@
 package com.softwareit.geographicatlas.data.mockData
 
-import com.softwareit.geographicatlas.data.local.entities.CountryEntity
-import com.softwareit.geographicatlas.data.model.Currency
-
 
 class MyMockData {
 
     companion object {
 
+/*
         val mockCountries = listOf(
-            CountryEntity(
+            Country(
                 "Argentina",
                 "AR",
                 "ARG",
@@ -27,7 +25,7 @@ class MyMockData {
                 ),
                 "https://restcountries.com/data/arg.svg"
             ),
-            CountryEntity(
+            Country(
                 "Brazil",
                 "BR",
                 "BRA",
@@ -45,7 +43,7 @@ class MyMockData {
                 ),
                 "https://restcountries.com/data/bra.svg"
             ),
-            CountryEntity(
+            Country(
                 "Canada",
                 "CA",
                 "CAN",
@@ -63,7 +61,7 @@ class MyMockData {
                 ),
                 "https://restcountries.com/data/can.svg"
             ),
-            CountryEntity(
+            Country(
                 "China",
                 "CN",
                 "CHN",
@@ -81,7 +79,7 @@ class MyMockData {
                 ),
                 "https://restcountries.com/data/chn.svg"
             ),
-            CountryEntity(
+            Country(
                 "France",
                 "FR",
                 "FRA",
@@ -99,7 +97,7 @@ class MyMockData {
                 ),
                 "https://restcountries.com/data/fra.svg"
             ),
-            CountryEntity(
+            Country(
                 "Germany",
                 "DE",
                 "DEU",
@@ -117,7 +115,7 @@ class MyMockData {
                 ),
                 "https://restcountries.com/data/deu.svg"
             ),
-            CountryEntity(
+            Country(
                 "India",
                 "IN",
                 "IND",
@@ -135,7 +133,7 @@ class MyMockData {
                 ),
                 "https://restcountries.com/data/ind.svg"
             ),
-            CountryEntity(
+            Country(
                 "Italy",
                 "IT",
                 "ITA",
@@ -154,5 +152,6 @@ class MyMockData {
                 "https://restcountries.com/data/ita.svg"
             ),
         )
+*/
     }
 }

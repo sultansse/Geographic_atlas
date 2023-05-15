@@ -1,19 +1,16 @@
 package com.softwareit.geographicatlas.ui.countriesList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softwareit.geographicatlas.data.remote.CountriesService
 import com.softwareit.geographicatlas.databinding.FragmentCountriesListBinding
 import com.softwareit.geographicatlas.ui.adapter.CountriesAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 /*class CountriesList : Fragment() {
 
@@ -92,7 +89,7 @@ class CountriesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        countriesService = RetrofitInstance.retrofit.create(CountriesService::class.java)
+//        countriesService = RetrofitInstance.retrofit.create(CountriesService::class.java)
 
         countriesAdapter = CountriesAdapter()
 
@@ -101,31 +98,29 @@ class CountriesList : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        viewModel.countries.observe(viewLifecycleOwner) {
+        viewModel.remoteAllCountries.observe(viewLifecycleOwner) {
             countriesAdapter.submitList(it)
         }
 
     }
 
-    private fun readDatabase() {
-        lifecycleScope.launch{
-            CountriesListViewModel.readAllCharacters.observe(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
-                    Log.d("CharactersFragment", "readDatabase called")
-                    mAdapter.setData(database[0].characterList)
-                    hideShimmerEffect()
-                } else {
-                    requestApiData()
-                }
-            }
-        }
-    }
-
-
-
-    companion object {
-        private const val TAG = "CountriesList"
-    }
+//    private fun readDatabase() {
+//        lifecycleScope.launch{
+//            CountriesListViewModel.readAllCharacters.observe(viewLifecycleOwner) { database ->
+//                if (database.isNotEmpty()) {
+//                    Log.d("CharactersFragment", "readDatabase called")
+//                    mAdapter.setData(database[0].characterList)
+//                    hideShimmerEffect()
+//                } else {
+//                    requestApiData()
+//                }
+//            }
+//        }
+//    }
+//
+//    companion object {
+//        private const val TAG = "CountriesList"
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -12,3 +12,9 @@ fun loadImgUrl(view: ShapeableImageView, url: String?) {
             .into(view)
     }
 }
+
+//@BindingAdapter("android:capitalNames")
+//fun getCapitalNames(capitals: List<String>): String {
+//    return capitals.joinToString("\n")
+//}
+

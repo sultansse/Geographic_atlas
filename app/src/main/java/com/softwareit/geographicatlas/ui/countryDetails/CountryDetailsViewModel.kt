@@ -2,12 +2,12 @@ package com.softwareit.geographicatlas.ui.countryDetails
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.softwareit.geographicatlas.data.repository.Repository
 
-@HiltViewModel
-class CountryDetailsViewModel(
-    application: Application,
-    private val countryId: Long,
+//@HiltViewModel
+class CountryDetailsViewModel /*@Inject*/ constructor(
+    private val repository: Repository,
+    application: Application
 ) : AndroidViewModel(application)  {
 
 }

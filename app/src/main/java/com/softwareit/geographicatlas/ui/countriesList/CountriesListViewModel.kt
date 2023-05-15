@@ -1,25 +1,20 @@
 package com.softwareit.geographicatlas.ui.countriesList
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.softwareit.geographicatlas.data.local.entities.CountryEntity
+import com.softwareit.geographicatlas.data.model.Country
 import com.softwareit.geographicatlas.data.repository.Repository
-import com.softwareit.geographicatlas.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 /*
 
-class CountriesListViewModel(
+class CountryViewModel(
     application: Application,
 //    private val countryId: Long,
 ) : AndroidViewModel(application) {
@@ -71,113 +66,122 @@ class CountriesListViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    //   ROOM
-//    val getCountry : LiveData<CountryEntity> = repository.local.getCountry()
-    val getAllCountries: LiveData<List<CountryEntity>> = repository.local.getAllCountries()
 
-    fun insertCountry(countryEntity: CountryEntity) {
+//   ROOM
+//
+//    val localAllCountries: LiveData<List<CountryEntity>> = repository.local.getAllCountries()
+//
+//    fun insertCountry(countryEntity: CountryEntity) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.local.insertCountry(countryEntity)
+//        }
+//    }
+//
+//    fun insertAllCountries(countriesList: List<CountryEntity>) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.local.insertAllCountries(countriesList)
+//        }
+//    }
+//
+//    fun deleteAllCountries() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.local.deleteAllCountries()
+//        }
+//    }
+//
+//    fun deleteCountry(countryEntity: CountryEntity) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.local.deleteCountry(countryEntity)
+//        }
+//    }
+
+//    RETROFIT
+
+//    var countriesResponse: MutableLiveData<Resource<Country>> = MutableLiveData()
+
+    val remoteAllCountries: LiveData<List<Country>> = MutableLiveData<List<Country>>().apply {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.local.insertCountry(countryEntity)
+            value = repository.remote.getAllCountries()
         }
     }
-
-    fun insertAllCountries(countriesList: List<CountryEntity>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.local.insertAllCountries(countriesList)
-        }
-    }
-
-    fun deleteAllCountries() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.local.deleteAllCountries()
-        }
-    }
-
-    fun deleteCountry(countryEntity: CountryEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.local.deleteCountry(countryEntity)
-        }
-    }
-
-    //    RETROFIT
-
-    var countriesResponse: MutableLiveData<Resource<CountriesList>> = MutableLiveData()
 
     fun getAllCountries() {
         viewModelScope.launch(Dispatchers.IO) {
-            getCountriesSafeCall()
+//            getCountriesSafeCall()
+            repository.remote.getAllCountries()
         }
     }
 
+    /*   private suspend fun getCountriesSafeCall() {
+           countriesResponse.postValue(Resource.Loading())
+           if (hasInternetConnection()) {
+               try {
+                   val response = repository.remote.getAllCountries()
+                   countriesResponse.postValue(handleGetCharachtersResponse(response))
 
-    private suspend fun getCountriesSafeCall() {
-        countriesResponse.postValue(Resource.Loading())
-        if (hasInternetConnection()) {
-            try {
-                val response = repository.remote.getAllCountries()
-                countriesResponse.postValue(handleGetCharachtersResponse(response))
-
-                val countriesList = response.body()
-                if (countriesList != null) {
-                    offlineCacheCountries(countriesList)
-                }
-
-
-            } catch (e: Exception) {
-                countriesResponse.postValue(Resource.Error("Charachters Not Found."))
-            }
-        } else {
-            countriesResponse.postValue(Resource.Error("No Internet Connection."))
-        }
-    }
+                   val countriesList = response.body()
+                   if (countriesList != null) {
+                       offlineCacheCountries(countriesList)
+                   }
 
 
-    private fun offlineCacheCountries(countriesList: CountriesList) {
-        val countryEntity = CountryEntity(countriesList)
-        insertCountry(countryEntity)
-    }
+               } catch (e: Exception) {
+                   countriesResponse.postValue(Resource.Error("Charachters Not Found."))
+               }
+           } else {
+               countriesResponse.postValue(Resource.Error("No Internet Connection."))
+           }
+       }
 
 
-    private fun handleGetCharachtersResponse(response: Response<CountriesList>): Resource<CountriesList>? {
-        when {
-            response.message().toString().contains("timeout") -> {
-                return Resource.Error("Timeout")
-            }
+       private fun offlineCacheCountries(countriesList: Country) {
+           val countryEntity = CountryEntity(countriesList)
+           insertCountry(countryEntity)
+       }
 
-            response.code() == 402 -> {
-                return Resource.Error("API Key Limited.")
-            }
 
-            response.body()!!.results.isNullOrEmpty() -> {
-                return Resource.Error("Countries Not Found.")
-            }
+       private fun handleGetCharachtersResponse(response: Response<Country>): Resource<Country>? {
+           when {
+               response.message().toString().contains("timeout") -> {
+                   return Resource.Error("Timeout")
+               }
 
-            response.isSuccessful -> {
-                val countries = response.body()
-                return Resource.Success(countries!!)
-            }
+               response.code() == 402 -> {
+                   return Resource.Error("API Key Limited.")
+               }
 
-            else -> {
-                return Resource.Error(response.message())
-            }
-        }
-    }
+               response.body()!!.results.isNullOrEmpty() -> {
+                   return Resource.Error("Countries Not Found.")
+               }
 
-    private fun hasInternetConnection(): Boolean {
-        val connectivityManager = getApplication<Application>().getSystemService(
-            Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
-        val activeNetwork = connectivityManager.activeNetwork ?: return false
-        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-        return when {
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
-        }
-    }
+               response.isSuccessful -> {
+                   val countries = response.body()
+                   return Resource.Success(countries!!)
+               }
 
-    /*     var searchedCharactersResponse: MutableLiveData<NetworkResult<CharacterList>> = MutableLiveData()
+               else -> {
+                   return Resource.Error(response.message())
+               }
+           }
+       }
+
+       private fun hasInternetConnection(): Boolean {
+           val connectivityManager = getApplication<Application>().getSystemService(
+               Context.CONNECTIVITY_SERVICE
+           ) as ConnectivityManager
+           val activeNetwork = connectivityManager.activeNetwork ?: return false
+           val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+           return when {
+               capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+               capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+               capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+               else -> false
+           }
+       }*/
+
+    /*
+    SEARCH logic
+    var searchedCharactersResponse: MutableLiveData<NetworkResult<CharacterList>> = MutableLiveData()
     fun searchCountries(searchQuery: String) = viewModelScope.launch {
           searchCountriesSafeCall(searchQuery)
       }

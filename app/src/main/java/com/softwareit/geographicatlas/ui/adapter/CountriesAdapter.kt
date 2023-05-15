@@ -31,9 +31,9 @@ class CountriesAdapter : ListAdapter<Country, CountriesAdapter.CountryViewHolder
         fun bind(country: Country) {
             binding.apply {
 
-                loadImgUrl(flagIv, country.flag)
-                countryNameTv.text = country.name
-                capitalNameTv.text = "Capital: ${country.capital}"
+                loadImgUrl(flagIv, country.flags.png)
+                countryNameTv.text = country.name.common
+                capitalNameTv.text = "Capital: ${country.capital[0]}"
                 tvPopulation.text = "Population: ${country.population}"
                 tvArea.text = "Area: ${country.area} km²"
                 tvCurrencies.text = "Currencies: 0000"
@@ -43,11 +43,11 @@ class CountriesAdapter : ListAdapter<Country, CountriesAdapter.CountryViewHolder
                     if (expandedView.visibility == View.GONE) {
                         // Expand the view
                         expandedView.visibility = View.VISIBLE
-                        expandableIv.setImageResource(R.drawable.baseline_expand_more_24)
+                        dropdownIv.setImageResource(R.drawable.baseline_expand_more_24)
                     } else {
                         // Collapse the view
                         expandedView.visibility = View.GONE
-                        expandableIv.setImageResource(R.drawable.baseline_expand_less_24)
+                        dropdownIv.setImageResource(R.drawable.baseline_expand_less_24)
                     }
                 }
             }

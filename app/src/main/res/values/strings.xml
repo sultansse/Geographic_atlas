@@ -6,6 +6,6 @@
     <string name="hello_from_home_screen">Hello from home screen</string>
     <string name="country_name">Country Name</string>
     <string name="learn_more">Learn More</string>
-    <string name="collapse_expand">Collapse or Expand</string>
+    <string name="dropdown">Collapse or Expand</string>
     <string name="flag">Country\'s flag</string>
 </resources>
