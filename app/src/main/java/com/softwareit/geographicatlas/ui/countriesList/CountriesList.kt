@@ -103,28 +103,27 @@ class CountriesList : Fragment() {
         }
     }
 
-
-//    private fun readDatabase() {
-//        lifecycleScope.launch{
-//            CountriesListViewModel.readAllCharacters.observe(viewLifecycleOwner) { database ->
-//                if (database.isNotEmpty()) {
-//                    Log.d("CharactersFragment", "readDatabase called")
-//                    mAdapter.setData(database[0].characterList)
-//                    hideShimmerEffect()
-//                } else {
-//                    requestApiData()
-//                }
-//            }
-//        }
-//    }
-//
-//    companion object {
-//        private const val TAG = "CountriesList"
-//    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+/*    private fun readDatabase() {
+        lifecycleScope.launch{
+            CountriesListViewModel.readAllCharacters.observe(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty()) {
+                    Log.d("CharactersFragment", "readDatabase called")
+                    mAdapter.setData(database[0].characterList)
+                    hideShimmerEffect()
+                } else {
+                    requestApiData()
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "CountriesList"
+
+    }*/
 }

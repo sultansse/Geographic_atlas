@@ -3,74 +3,125 @@ package com.softwareit.geographicatlas.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.softwareit.geographicatlas.R
-import com.softwareit.geographicatlas.data.model.Country
-import com.softwareit.geographicatlas.data.model.CountryItem
 import com.softwareit.geographicatlas.databinding.CountryListItemBinding
+import com.softwareit.geographicatlas.ui.model.Country
+import com.softwareit.geographicatlas.ui.model.RowItem
 import com.softwareit.geographicatlas.utils.loadImgUrl
 
-class CountriesAdapter : ListAdapter<CountryItem, CountriesAdapter.CountryViewHolder>(CountryComporator()) {
+class CountriesAdapter :
+    ListAdapter<RowItem, RecyclerView.ViewHolder>(CountryComparator()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
-        val binding =
-            CountryListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CountryViewHolder(binding)
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        return when (item) {
+            is RowItem.CountryWrapper -> COUNTRY_ROW
+            is RowItem.HeaderWrapper -> HEADER_ROW
+            else -> throw IllegalArgumentException("Invalid item type at position $position")
+        }
     }
 
-    override fun onBindViewHolder(countryHolder: CountryViewHolder, headerHolder: HeaderViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            COUNTRY_ROW -> {
+                val binding =
+                    CountryListItemBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                CountryViewHolder(binding)
+            }
+
+            HEADER_ROW -> {
+                val view =
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.header_layout, parent, false)
+                HeaderViewHolder(view)
+            }
+
+            else -> throw IllegalArgumentException("Invalid view type: $viewType")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentItem = getItem(position)
-        if (currentItem != null) {
-            countryHolder.bind(currentItem)
-            headerHolder.bind(currentItem)
-        }
 
-    }
+        when (holder) {
+            is CountryViewHolder -> {
+                val rowItem = currentItem as? RowItem.CountryWrapper
+                rowItem?.let {
+                    holder.bind(it.country)
+                }
+            }
 
-    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(continent: String) {
-//            binding.apply {
-//                headerTv.text = continent
-//            }
-        }
-
-    }
-
-    class CountryViewHolder(private val binding: CountryListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(country: Country) {
-            binding.apply {
-
-                loadImgUrl(flagIv, country.flags.png)
-                countryNameTv.text = country.name.common
-                capitalNameTv.text = "Capital: ${country?.capital?.get(0) ?: "NO capital"}"
-                tvPopulation.text = "Population: ${country.population}"
-                tvArea.text = "Area: ${country.area} km²"
-                tvCurrencies.text = "Currencies: 0000"
-
-                // Set click listener to expand or collapse the view
-                cardLayout.setOnClickListener {
-                    if (expandedView.visibility == View.GONE) {
-                        // Expand the view
-                        expandedView.visibility = View.VISIBLE
-                        dropdownIv.setImageResource(R.drawable.baseline_expand_more_24)
-                    } else {
-                        // Collapse the view
-                        expandedView.visibility = View.GONE
-                        dropdownIv.setImageResource(R.drawable.baseline_expand_less_24)
-                    }
+            is HeaderViewHolder -> {
+                val headerWrapper = currentItem as? RowItem.HeaderWrapper
+                headerWrapper?.let {
+                    holder.bind(it.continents)
                 }
             }
         }
     }
 
-    class CountryComporator : DiffUtil.ItemCallback<Country>() {
-        override fun areItemsTheSame(oldItem: Country, newItem: Country) =
-            oldItem.name == newItem.name
+    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val headerTv: TextView = itemView.findViewById(R.id.header_tv)
 
-        override fun areContentsTheSame(oldItem: Country, newItem: Country) =
-            oldItem == newItem
+        fun bind(continent: String) {
+            headerTv.text = continent
+        }
+    }
+
+    class CountryViewHolder(private val binding: CountryListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(country: Country) {
+            binding.apply {
+                // Bind the country data to the views in your layout
+                loadImgUrl(flagIv, country.flags.png)
+                countryNameTv.text = country.name.common
+                capitalNameTv.text = "${country?.capital?.get(0) ?: "NO capital"}"
+                tvPopulation.text = "Population: ${country.population}"
+                tvArea.text = "Area: ${country.area} km²"
+                val currencyString =
+                    country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
+                tvCurrencies.text = "Currencies: ${currencyString}"
+
+                // Set click listener to expand or collapse the view
+                cardLayout.setOnClickListener {
+                    with(expandedView) {
+                        if (visibility == View.GONE) {
+                            // Expand the view
+                            visibility = View.VISIBLE
+                            dropdownIv.setImageResource(R.drawable.baseline_expand_less_24)
+                        } else {
+                            // Collapse the view
+                            visibility = View.GONE
+                            dropdownIv.setImageResource(R.drawable.baseline_expand_more_24)
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    class CountryComparator : DiffUtil.ItemCallback<RowItem>() {
+        override fun areItemsTheSame(oldItem: RowItem, newItem: RowItem): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: RowItem, newItem: RowItem): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    companion object {
+        private const val HEADER_ROW = 0
+        private const val COUNTRY_ROW = 1
     }
 }

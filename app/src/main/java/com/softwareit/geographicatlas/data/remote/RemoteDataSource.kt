@@ -1,6 +1,6 @@
 package com.softwareit.geographicatlas.data.remote
 
-import com.softwareit.geographicatlas.data.model.CountryNetworkModel
+import com.softwareit.geographicatlas.data.remote.model.CountryNetworkModel
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(

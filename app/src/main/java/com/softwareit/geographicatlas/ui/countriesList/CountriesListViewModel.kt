@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.softwareit.geographicatlas.data.model.Country
-import com.softwareit.geographicatlas.data.model.CountryItem
 import com.softwareit.geographicatlas.data.repository.Repository
+import com.softwareit.geographicatlas.ui.model.Country
+import com.softwareit.geographicatlas.ui.model.RowItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,9 +52,7 @@ class CountriesListViewModel @Inject constructor(
 
 //    RETROFIT
 
-//    var countriesResponse: MutableLiveData<Resource<Country>> = MutableLiveData()
-
-    val remoteAllCountries: MutableLiveData<List<CountryItem>> = MutableLiveData()
+    val remoteAllCountries: MutableLiveData<List<RowItem>> = MutableLiveData()
 
     init {
         getAllCountries()
@@ -62,37 +60,41 @@ class CountriesListViewModel @Inject constructor(
 
     fun getAllCountries() {
         viewModelScope.launch(Dispatchers.IO) {
-//            getCountriesSafeCall()
+            // take all data for group
             val countriesList = repository.remote.getAllCountries()
-            // group by continent
-            val groupedCountries = countriesList.groupBy { it.continent }
             // map to list of Country class
-            val continentGroups = countriesList.flatMap { country ->
-                country.continent.map { continent -> continent to country }
-            }.groupBy({ it.first }, { it.second }).toSortedMap()
+            val continentGroups = countriesList
+                .flatMap { country -> country.continents.map { continent -> continent to country } }
+                .groupBy({ it.first }, { it.second })
+                .toSortedMap()
 
-            val countryItems = mutableListOf<CountryItem>()
-            continentGroups.forEach { (continent, countryNetworkModels) ->
-                countryItems.add(CountryItem.HeaderItem(continent))
-                countryNetworkModels.forEach {
-                    countryItems.add(CountryItem.CountryWrapper(
-                        Country(
-                            area = it.area,
-                            capital = it.capital,
-                            cca2 = it.cca2,
-                            continent = it.continent,
-                            currencies = it.currencies,
-                            flags = it.flags,
-                            latlng = it.latlng,
-                            name = it.name,
-                            population = it.population,
-                            region = it.region,
-                        )
-                    ))
-                }
-            }
-            remoteAllCountries.postValue(countryItems)
-//            withContext(Dispatchers.IO) {}
+            // group by continent
+//            val groupedCountries = countriesList.groupBy { it.continents }
+
+            val rowItems = mutableListOf<RowItem>()
+
+            continentGroups.flatMap { (continent, countryNetworkModels) ->
+                listOf(RowItem.HeaderWrapper(continent)) +
+                        countryNetworkModels.map {
+                            RowItem.CountryWrapper(
+                                Country(
+                                    area = it.area,
+                                    capital = it.capital,
+                                    cca2 = it.cca2,
+                                    continents = it.continents,
+                                    currencies = it.currencies,
+                                    flags = it.flags,
+                                    capitalInfo = it.capitalInfo,
+                                    name = it.name,
+                                    population = it.population,
+                                    region = it.region,
+                                    maps = it.maps
+                                )
+                            )
+                        }
+            }.toCollection(rowItems)
+
+            remoteAllCountries.postValue(rowItems)
         }
     }
 
