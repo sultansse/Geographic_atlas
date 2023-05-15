@@ -48,7 +48,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/country_name_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 app:flow_horizontalAlign="start"
@@ -57,17 +57,19 @@
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
+                app:layout_constraintEnd_toStartOf="@id/dropdown_iv"
                 app:layout_constraintStart_toEndOf="@id/flag_card"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!--            todo capitals. not capital-->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/capital_name_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@id/dropdown_iv"
                 app:layout_constraintStart_toEndOf="@id/flag_card"
                 app:layout_constraintTop_toBottomOf="@id/country_name_tv" />
 

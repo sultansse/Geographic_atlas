@@ -1,5 +1,6 @@
 package com.softwareit.geographicatlas.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,17 +80,18 @@ class CountriesAdapter :
     class CountryViewHolder(private val binding: CountryListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(country: Country) {
             binding.apply {
                 // Bind the country data to the views in your layout
                 loadImgUrl(flagIv, country.flags.png)
                 countryNameTv.text = country.name.common
-                capitalNameTv.text = "${country?.capital?.get(0) ?: "NO capital"}"
+                capitalNameTv.text = country.capital?.get(0) ?: "NO capital"
                 tvPopulation.text = "Population: ${country.population}"
                 tvArea.text = "Area: ${country.area} km²"
                 val currencyString =
                     country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
-                tvCurrencies.text = "Currencies: ${currencyString}"
+                tvCurrencies.text = "Currencies: $currencyString"
 
                 // Set click listener to expand or collapse the view
                 cardLayout.setOnClickListener {
