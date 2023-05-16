@@ -103,7 +103,7 @@ class CountriesAdapter :
 
                 // Set click listener to expand or collapse the view
                 rowLayout.setOnClickListener {
-                    with(expandedView) {
+                    with(expandViewLayout) {
                         if (visibility == View.GONE) {
                             // Expand the view
                             visibility = View.VISIBLE
