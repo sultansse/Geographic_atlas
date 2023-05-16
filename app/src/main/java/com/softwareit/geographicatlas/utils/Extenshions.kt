@@ -25,7 +25,6 @@ fun getColoredText(text: String): SpannableString {
     val decodedText = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT).toString()
     val spannableText = SpannableString(decodedText)
     val grayColorSpan = ForegroundColorSpan(Color.GRAY)
-    val blackColorSpan = ForegroundColorSpan(Color.BLACK)
     val grayTextLastCharIndex = decodedText.indexOf(":")
 
     if (grayTextLastCharIndex != -1) {
@@ -33,13 +32,6 @@ fun getColoredText(text: String): SpannableString {
             grayColorSpan,
             0,
             grayTextLastCharIndex + 1,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        spannableText.setSpan(
-            blackColorSpan,
-            grayTextLastCharIndex + 1,
-            decodedText.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
     }

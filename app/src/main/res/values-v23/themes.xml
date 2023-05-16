@@ -3,7 +3,7 @@
 
     <style name="Base.Theme.GeographicAtlas" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your light theme here. -->
-
+ 1
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/white</item>
 
@@ -11,11 +11,15 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
 
+        <!-- Set icons color to black -->
+        <item name="android:windowLightStatusBar">true</item>
+
         <!-- Customize the color of the title and icons in the AppBar -->
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
 
-        <!-- Set icons color to black -->
-        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="colorSecondary">@color/cardview_light_background</item>
+        <item name="colorOnSecondary">@color/black</item>
     </style>
 </resources>

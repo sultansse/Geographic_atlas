@@ -13,6 +13,9 @@
         <!-- Customize the color of the title and icons in the AppBar -->
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
+
+        <item name="colorSecondary">@color/cardview_light_background</item>
+        <item name="colorOnSecondary">@color/black</item>
     </style>
 
     <style name="Theme.GeographicAtlas" parent="Base.Theme.GeographicAtlas" />

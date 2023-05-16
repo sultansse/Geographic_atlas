@@ -36,6 +36,7 @@
             android:layout_margin="16dp"
             android:maxLines="2"
             android:text="&#8226; Capital:"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -45,6 +46,7 @@
             android:layout_margin="16dp"
             android:maxLines="2"
             android:text="&#8226; Capital Coordinates:"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -53,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="&#8226; Population:"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -61,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="&#8226; Area:"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -68,8 +72,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="&#8226; Currencies:"
             android:maxLines="2"
+            android:text="&#8226; Currencies:"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -78,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="&#8226; Region:"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -86,6 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="&#8226; Timezones:"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
