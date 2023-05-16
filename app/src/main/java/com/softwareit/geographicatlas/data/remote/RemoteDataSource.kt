@@ -11,7 +11,7 @@ class RemoteDataSource @Inject constructor(
         return countryService.getAllCountries()
     }
 
-    suspend fun getCountryNetworkModel(countryName: String): CountryNetworkModel {
-        return countryService.getCountry(countryName)
+    suspend fun getCountryByCode(countryCode: String): List<CountryNetworkModel> {
+        return countryService.getCountry(countryCode)
     }
 }

@@ -22,9 +22,11 @@ data class CountryNetworkModel(
     val name: Name,
     @SerializedName("population")
     val population: Long,
-    @SerializedName("region")
-    val region: String,
+    @SerializedName("subregion")
+    val subregion: String?,
     @SerializedName("maps")
     val maps: Maps,
+    @SerializedName("timezones")
+    val timezones: List<String>,
 )
 

@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.softwareit.geographicatlas.R
 import com.softwareit.geographicatlas.databinding.CountryListItemBinding
+import com.softwareit.geographicatlas.ui.countriesList.CountriesListDirections
 import com.softwareit.geographicatlas.ui.model.Country
 import com.softwareit.geographicatlas.ui.model.RowItem
+import com.softwareit.geographicatlas.utils.getColoredText
 import com.softwareit.geographicatlas.utils.loadImgUrl
 
 class CountriesAdapter :
@@ -87,14 +90,14 @@ class CountriesAdapter :
                 loadImgUrl(flagIv, country.flags.png)
                 countryNameTv.text = country.name.common
                 capitalNameTv.text = country.capital?.get(0) ?: "NO capital"
-                tvPopulation.text = "Population: ${country.population}"
-                tvArea.text = "Area: ${country.area} km²"
+                tvPopulation.text = getColoredText("Population: ${country.population}")
+                tvArea.text = getColoredText("Area: ${country.area} km²")
                 val currencyString =
                     country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
-                tvCurrencies.text = "Currencies: $currencyString"
+                tvCurrencies.text = getColoredText("Currencies: $currencyString")
 
                 // Set click listener to expand or collapse the view
-                cardLayout.setOnClickListener {
+                rowLayout.setOnClickListener {
                     with(expandedView) {
                         if (visibility == View.GONE) {
                             // Expand the view
@@ -108,6 +111,10 @@ class CountriesAdapter :
                     }
                 }
 
+                learnMoreBtn.setOnClickListener {
+                    val action = CountriesListDirections.actionCountriesListToCountryDetails()
+                    Navigation.findNavController(itemView).navigate(action)
+                }
             }
         }
     }

@@ -19,5 +19,6 @@ data class CountryLocalModel(
     val population: Long,
     val region: String,
     val maps: Maps,
+    val timezones: List<String>,
 )
 

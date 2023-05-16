@@ -1,5 +1,12 @@
 package com.softwareit.geographicatlas.utils
 
+import android.graphics.Color
+import android.os.Build
+import android.text.Html
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
@@ -13,8 +20,30 @@ fun loadImgUrl(view: ShapeableImageView, url: String?) {
     }
 }
 
-//@BindingAdapter("android:capitalNames")
-//fun getCapitalNames(capitals: List<String>): String {
-//    return capitals.joinToString("\n")
-//}
+@RequiresApi(Build.VERSION_CODES.N)
+fun getColoredText(text: String): SpannableString {
+    val decodedText = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT).toString()
+    val spannableText = SpannableString(decodedText)
+    val grayColorSpan = ForegroundColorSpan(Color.GRAY)
+    val blackColorSpan = ForegroundColorSpan(Color.BLACK)
+    val grayTextLastCharIndex = decodedText.indexOf(":")
+
+    if (grayTextLastCharIndex != -1) {
+        spannableText.setSpan(
+            grayColorSpan,
+            0,
+            grayTextLastCharIndex + 1,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        spannableText.setSpan(
+            blackColorSpan,
+            grayTextLastCharIndex + 1,
+            decodedText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+
+    return spannableText
+}
 

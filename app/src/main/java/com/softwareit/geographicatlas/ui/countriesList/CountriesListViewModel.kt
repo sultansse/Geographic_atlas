@@ -68,9 +68,6 @@ class CountriesListViewModel @Inject constructor(
                 .groupBy({ it.first }, { it.second })
                 .toSortedMap()
 
-            // group by continent
-//            val groupedCountries = countriesList.groupBy { it.continents }
-
             val rowItems = mutableListOf<RowItem>()
 
             continentGroups.flatMap { (continent, countryNetworkModels) ->
@@ -87,8 +84,9 @@ class CountriesListViewModel @Inject constructor(
                                     capitalInfo = it.capitalInfo,
                                     name = it.name,
                                     population = it.population,
-                                    region = it.region,
-                                    maps = it.maps
+                                    subregion = it.subregion,
+                                    maps = it.maps,
+                                    timezones = it.timezones,
                                 )
                             )
                         }
@@ -165,39 +163,4 @@ class CountriesListViewModel @Inject constructor(
                    else -> false
                }
            }*/
-
-    /*
-    SEARCH logic
-    var searchedCharactersResponse: MutableLiveData<NetworkResult<CharacterList>> = MutableLiveData()
-    fun searchCountries(searchQuery: String) = viewModelScope.launch {
-          searchCountriesSafeCall(searchQuery)
-      }
-
-      suspend fun searchCountriesSafeCall(searchQuery: String) {
-          searchedCountriesResponse.postValue(Resources.Loading())
-          if (hasInternetConnection()) {
-              try {
-                  val response = repository.remote.searchCountry(searchQuery)
-                  searchedCountriesResponse.postValue(handleGetCharachtersResponse(response))
-              } catch (e: Exception) {
-                  searchedCountriesResponse.postValue(Resources.Error("Charachters not found."))
-              }
-          } else {
-              searchedCountriesResponse.postValue(Resources.Error("No Internet Connection."))
-          }
-      }
-
-      private fun hasInternetConnection(): Boolean {
-          val connectivityManager = getApplication<Application>().getSystemService(
-              Context.CONNECTIVITY_SERVICE
-          ) as ConnectivityManager
-          val activeNetwork = connectivityManager.activeNetwork ?: return false
-          val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-          return when {
-              capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-              capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-              capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-              else -> false
-          }
-      }*/
 }

@@ -17,6 +17,7 @@ data class Country(
     val capitalInfo: CapitalInfo,
     val name: Name,
     val population: Long,
-    val region: String,
+    val subregion: String?,
     val maps: Maps,
+    val timezones: List<String>,
 )

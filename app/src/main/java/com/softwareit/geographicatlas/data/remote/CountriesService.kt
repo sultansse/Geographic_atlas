@@ -6,8 +6,8 @@ import retrofit2.http.Path
 
 interface CountriesService {
 
-    @GET("alpha/{code}")
-    suspend fun getCountry(@Path("name") code: String): CountryNetworkModel
+    @GET("alpha/{cca2}")
+    suspend fun getCountry(@Path("cca2") cca2: String): List<CountryNetworkModel>
 
     @GET("all")
     suspend fun getAllCountries(): List<CountryNetworkModel>
