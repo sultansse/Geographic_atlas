@@ -16,12 +16,10 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/flag_card"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginStart="12dp"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
             app:cardCornerRadius="8dp"
-            app:layout_constraintBottom_toTopOf="@id/expand_view_layout"
+            android:layout_marginHorizontal="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
