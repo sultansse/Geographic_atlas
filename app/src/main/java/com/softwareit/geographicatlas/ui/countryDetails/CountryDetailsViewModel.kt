@@ -17,12 +17,11 @@ class CountryDetailsViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    val countryCode = "kz"
-    val remoteCountry: MutableLiveData<List<CountryNetworkModel>> = MutableLiveData()
-
-    init {
-        getCountryDetails(countryCode)
+    fun onViewCreatedCountryCode(code: String) {
+        getCountryDetails(code)
     }
+
+    val remoteCountry: MutableLiveData<List<CountryNetworkModel>> = MutableLiveData()
 
     private fun getCountryDetails(countryCode: String) {
         viewModelScope.launch(Dispatchers.IO) {

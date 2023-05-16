@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.softwareit.geographicatlas.databinding.FragmentCountryDetailsBinding
 import com.softwareit.geographicatlas.utils.getColoredText
 import com.softwareit.geographicatlas.utils.loadImgUrl
@@ -33,6 +35,14 @@ class CountryDetails : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val args: CountryDetailsArgs by navArgs()
+        val countryCode = args.countryCode
+        val countryName = args.countryName
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = countryName
+
+        viewModel.onViewCreatedCountryCode(countryCode)
 
         viewModel.remoteCountry.observe(viewLifecycleOwner) {
             binding.apply {

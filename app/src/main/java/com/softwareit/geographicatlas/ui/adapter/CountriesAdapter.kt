@@ -1,11 +1,13 @@
 package com.softwareit.geographicatlas.ui.adapter
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.Navigation
+import androidx.annotation.RequiresApi
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,7 @@ import com.softwareit.geographicatlas.ui.model.Country
 import com.softwareit.geographicatlas.ui.model.RowItem
 import com.softwareit.geographicatlas.utils.getColoredText
 import com.softwareit.geographicatlas.utils.loadImgUrl
+
 
 class CountriesAdapter :
     ListAdapter<RowItem, RecyclerView.ViewHolder>(CountryComparator()) {
@@ -52,6 +55,7 @@ class CountriesAdapter :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentItem = getItem(position)
 
@@ -83,6 +87,7 @@ class CountriesAdapter :
     class CountryViewHolder(private val binding: CountryListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @RequiresApi(Build.VERSION_CODES.N)
         @SuppressLint("SetTextI18n")
         fun bind(country: Country) {
             binding.apply {
@@ -112,8 +117,13 @@ class CountriesAdapter :
                 }
 
                 learnMoreBtn.setOnClickListener {
-                    val action = CountriesListDirections.actionCountriesListToCountryDetails()
-                    Navigation.findNavController(itemView).navigate(action)
+                    val countryCode = country.cca2
+                    val countryName = country.name.common
+                    val action = CountriesListDirections.actionCountriesListToCountryDetails(
+                        countryCode,
+                        countryName
+                    )
+                    findNavController(itemView).navigate(action)
                 }
             }
         }

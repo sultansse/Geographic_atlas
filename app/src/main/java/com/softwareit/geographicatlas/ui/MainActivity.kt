@@ -27,10 +27,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.CountriesList,
-                R.id.CountryDetails,
-            )
+            navController.graph
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
