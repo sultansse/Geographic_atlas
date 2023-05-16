@@ -20,4 +20,5 @@ data class Country(
     val subregion: String?,
     val maps: Maps,
     val timezones: List<String>,
+    var isCollapsed: Boolean = true
 )

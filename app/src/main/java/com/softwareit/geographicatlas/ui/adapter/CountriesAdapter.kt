@@ -84,12 +84,18 @@ class CountriesAdapter :
         }
     }
 
-    class CountryViewHolder(private val binding: CountryListItemBinding) :
+    inner class CountryViewHolder(private val binding: CountryListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @RequiresApi(Build.VERSION_CODES.N)
         @SuppressLint("SetTextI18n")
         fun bind(country: Country) {
+
+            binding.rowLayout.setOnClickListener {
+                country.isCollapsed = !country.isCollapsed
+                notifyItemChanged(bindingAdapterPosition)
+            }
+
             binding.apply {
                 // Bind the country data to the views in your layout
                 loadImgUrl(flagIv, country.flags.png)
@@ -101,18 +107,16 @@ class CountriesAdapter :
                     country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
                 tvCurrencies.text = getColoredText("Currencies: $currencyString")
 
-                // Set click listener to expand or collapse the view
-                rowLayout.setOnClickListener {
-                    with(expandViewLayout) {
-                        if (visibility == View.GONE) {
-                            // Expand the view
-                            visibility = View.VISIBLE
-                            dropdownIv.setImageResource(R.drawable.baseline_expand_less_24)
-                        } else {
-                            // Collapse the view
-                            visibility = View.GONE
-                            dropdownIv.setImageResource(R.drawable.baseline_expand_more_24)
-                        }
+                expandViewLayout.apply {
+                    if (country.isCollapsed) {
+                        // Collapse the view
+                        visibility = View.GONE
+                        dropdownIv.setImageResource(R.drawable.baseline_expand_more_24)
+                    } else {
+                        // Expand the view
+                        visibility = View.VISIBLE
+                        dropdownIv.setImageResource(R.drawable.baseline_expand_less_24)
+
                     }
                 }
 
