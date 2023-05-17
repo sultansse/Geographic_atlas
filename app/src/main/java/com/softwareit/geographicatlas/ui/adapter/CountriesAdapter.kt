@@ -101,11 +101,11 @@ class CountriesAdapter :
                 loadImgUrl(flagIv, country.flags.png)
                 countryNameTv.text = country.name.common
                 capitalNameTv.text = country.capital?.get(0) ?: "NO capital"
-                tvPopulation.text = getColoredText("Population: ${country.population}")
-                tvArea.text = getColoredText("Area: ${country.area} km²")
+                tvPopulation.text = getColoredText("Population:${country.population}","CountriesAdapter")
+                tvArea.text = getColoredText("Area:${country.area} km²","CountriesAdapter")
                 val currencyString =
                     country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
-                tvCurrencies.text = getColoredText("Currencies: $currencyString")
+                tvCurrencies.text = getColoredText("Currencies:$currencyString","CountriesAdapter")
 
                 expandViewLayout.apply {
                     if (country.isCollapsed) {

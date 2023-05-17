@@ -5,6 +5,7 @@ import android.os.Build
 import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
@@ -21,9 +22,9 @@ fun loadImgUrl(view: ShapeableImageView, url: String?) {
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun getColoredText(text: String): SpannableString {
+fun getColoredText(text: String, fromClass: String): SpannableString {
     val decodedText = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT).toString()
-    val spannableText = SpannableString(decodedText)
+    val spannableText = SpannableStringBuilder(decodedText)
     val grayColorSpan = ForegroundColorSpan(Color.GRAY)
     val grayTextLastCharIndex = decodedText.indexOf(":")
 
@@ -34,8 +35,16 @@ fun getColoredText(text: String): SpannableString {
             grayTextLastCharIndex + 1,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
+
+        if (fromClass == "CountryDetails") {
+            val lineBreakIndex = grayTextLastCharIndex + 1
+            if (lineBreakIndex < spannableText.length) {
+                spannableText.insert(lineBreakIndex, "\n    ")
+            }
+        }
+
     }
 
-    return spannableText
+    return SpannableString.valueOf(spannableText)
 }
 

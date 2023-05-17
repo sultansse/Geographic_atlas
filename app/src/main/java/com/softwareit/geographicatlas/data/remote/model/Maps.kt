@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class Maps(
 
-    @SerializedName("google-maps")
+    @SerializedName("googleMaps")
     val googleMaps: String,
-    @SerializedName("openstreetmap")
+    @SerializedName("openStreetMaps")
     val openStreetMaps: String
 )

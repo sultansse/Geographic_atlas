@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:maxLines="2"
-            android:text="&#8226; Capital:"
+            android:text="&#9679; Capital:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
@@ -47,7 +47,7 @@
             android:clickable="true"
             android:focusable="true"
             android:maxLines="2"
-            android:text="&#8226; Capital Coordinates:"
+            android:text="&#9679; Capital Coordinates:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="&#8226; Population:"
+            android:text="&#9679; Population:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="&#8226; Area:"
+            android:text="&#9679; Area:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:maxLines="2"
-            android:text="&#8226; Currencies:"
+            android:text="&#9679; Currencies:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="&#8226; Region:"
+            android:text="&#9679; Region:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="&#8226; Timezones:"
+            android:text="&#9679; Timezones:"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="20sp" />
 
