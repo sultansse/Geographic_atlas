@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.softwareit.geographicatlas.data.remote.model.CountryNetworkModel
 import com.softwareit.geographicatlas.databinding.FragmentCountryDetailsBinding
+import com.softwareit.geographicatlas.utils.Resource
 import com.softwareit.geographicatlas.utils.getColoredText
 import com.softwareit.geographicatlas.utils.loadImgUrl
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +51,14 @@ class CountryDetails : Fragment() {
 
         viewModel.onLoadCountryDetails(countryCode)
 
-        viewModel.remoteCountry.observe(viewLifecycleOwner, this::onRemoteCountryChanged)
+        viewModel.remoteCountry.observe(viewLifecycleOwner) { status ->
+            when (status) {
+                is Resource.Loading -> showLoadingState()
+                is Resource.Success -> showDataState(status.data)
+                else -> showErrorState()
+            }
+
+        }
 
         binding.capitalCoordinatesTv.setOnClickListener {
             Toast.makeText(requireContext(), "Opening Google Maps", Toast.LENGTH_SHORT).show()
@@ -66,11 +74,58 @@ class CountryDetails : Fragment() {
     }
 
     private fun onRemoteCountryChanged(countries: List<CountryNetworkModel>) {
-        val country = countries.firstOrNull()
-        country?.let {
+        val country = countries.first()
+        country.let {
             mapLink = it.maps.googleMaps
-            bindCountryDetails(it)
+//            bindCountryDetails(country)
         }
+        loadImgUrl(binding.flagIv, country.flags.png)
+
+        val capital = country.capital?.getOrNull(0) ?: "No capital"
+        binding.capitalNameTv.text = getColoredText("&#9679; Capital:$capital", "CountryDetails")
+        val capitalCoordinates = getColoredText(
+            "&#9679; Capital Coordinates:${country.capitalInfo.latlng}",
+            "CountryDetails"
+        )
+        binding.capitalCoordinatesTv.text = capitalCoordinates
+
+        val populationText =
+            getColoredText("&#9679; Population:${country.population}", "CountryDetails")
+        val areaText = getColoredText("&#9679; Area:${country.area} km²", "CountryDetails")
+        binding.populationTv.text = populationText
+        binding.areaTv.text = areaText
+
+        val currencyString =
+            country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
+        binding.currenciesTv.text =
+            getColoredText("&#9679; Currencies:$currencyString", "CountryDetails")
+
+        binding.regionTv.text =
+            getColoredText("&#9679; Region:${country.subregion ?: "No region"}", "CountryDetails")
+        binding.timezonesTv.text = getColoredText(
+            "&#9679; Timezones:${country.timezones.joinToString("\n")}",
+            "CountryDetails"
+        )
+    }
+
+    private fun showLoadingState() {
+        binding.shimmerFrameLayout.startShimmer()
+    }
+
+    private fun showDataState(data: List<CountryNetworkModel>?) {
+        binding.shimmerFrameLayout.stopShimmer()
+        binding.shimmerFrameLayout.visibility = View.GONE
+
+
+//        onRemoteCountryChanged(data!!)
+        binding.countryDetailsLayout.visibility = View.VISIBLE
+    }
+
+
+    private fun showErrorState() {
+        binding.shimmerFrameLayout.stopShimmer()
+        binding.shimmerFrameLayout.visibility = View.GONE
+        binding.errorTv.visibility = View.VISIBLE
     }
 
     private fun bindCountryDetails(country: CountryNetworkModel) {
@@ -78,18 +133,28 @@ class CountryDetails : Fragment() {
 
         val capital = country.capital?.getOrNull(0) ?: "No capital"
         binding.capitalNameTv.text = getColoredText("&#9679; Capital:$capital", "CountryDetails")
-        val capitalCoordinates = getColoredText("&#9679; Capital Coordinates:${country.capitalInfo.latlng}", "CountryDetails")
+        val capitalCoordinates = getColoredText(
+            "&#9679; Capital Coordinates:${country.capitalInfo.latlng}",
+            "CountryDetails"
+        )
         binding.capitalCoordinatesTv.text = capitalCoordinates
 
-        val populationText = getColoredText("&#9679; Population:${country.population}", "CountryDetails")
+        val populationText =
+            getColoredText("&#9679; Population:${country.population}", "CountryDetails")
         val areaText = getColoredText("&#9679; Area:${country.area} km²", "CountryDetails")
         binding.populationTv.text = populationText
         binding.areaTv.text = areaText
 
-        val currencyString = country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
-        binding.currenciesTv.text = getColoredText("&#9679; Currencies:$currencyString", "CountryDetails")
+        val currencyString =
+            country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
+        binding.currenciesTv.text =
+            getColoredText("&#9679; Currencies:$currencyString", "CountryDetails")
 
-        binding.regionTv.text = getColoredText("&#9679; Region:${country.subregion ?: "No region"}", "CountryDetails")
-        binding.timezonesTv.text = getColoredText("&#9679; Timezones:${country.timezones.joinToString("\n")}", "CountryDetails")
+        binding.regionTv.text =
+            getColoredText("&#9679; Region:${country.subregion ?: "No region"}", "CountryDetails")
+        binding.timezonesTv.text = getColoredText(
+            "&#9679; Timezones:${country.timezones.joinToString("\n")}",
+            "CountryDetails"
+        )
     }
 }

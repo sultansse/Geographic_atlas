@@ -1,9 +1,11 @@
 package com.softwareit.geographicatlas.ui.countriesList
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,7 @@ import com.softwareit.geographicatlas.ui.model.RowItem
 import com.softwareit.geographicatlas.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
+@RequiresApi(Build.VERSION_CODES.N)
 @AndroidEntryPoint
 class CountriesList : Fragment() {
 
