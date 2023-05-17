@@ -36,9 +36,6 @@ https://youtu.be/fMF067I-pNg
 
 
 # Task and Completion
-Sure! Here's the revised readme file with the text organized as a bullet list:
-
-# Task and Completion
 ### The CountriesList screen should fulfill the following requirements:
 
 1.✅ DONE  Should consist of the scrollable list of all the world countries grouped by parts of the world. The data should be obtained by calling the https://restcountries.com/v3.1/all endpoint.
