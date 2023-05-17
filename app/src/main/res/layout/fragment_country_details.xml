@@ -5,98 +5,134 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".ui.countryDetails.CountryDetails">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/flag_card"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerFrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="8dp">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            tools:visibility="gone">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/flag_iv"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/flag"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        </com.google.android.material.card.MaterialCardView>
+                <include layout="@layout/fragment_country_details_shimmer" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/capital_name_tv"
+        <TextView
+            android:id="@+id/error_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:maxLines="2"
-            android:text="&#9679; Capital:"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="¯\_(ツ)_/¯ oops, something went wrong"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+            android:textSize="40sp"
+            android:visibility="gone" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/capital_coordinates_tv"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/country_details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:maxLines="2"
-            android:text="&#9679; Capital Coordinates:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:context=".ui.countryDetails.CountryDetails">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/population_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="&#9679; Population:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/flag_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="8dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/area_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="&#9679; Area:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/flag_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/flag"
+                    android:scaleType="centerCrop" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/currencies_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:maxLines="2"
-            android:text="&#9679; Currencies:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/region_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="&#9679; Region:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/timezones_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="&#9679; Timezones:"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="20sp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/capital_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:maxLines="2"
+                android:text="&#9679; Capital:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/capital_coordinates_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:maxLines="2"
+                android:text="&#9679; Capital Coordinates:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/population_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="&#9679; Population:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/area_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="&#9679; Area:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/currencies_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:maxLines="2"
+                android:text="&#9679; Currencies:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/region_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="&#9679; Region:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/timezones_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="&#9679; Timezones:"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

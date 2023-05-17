@@ -11,7 +11,6 @@ import com.softwareit.geographicatlas.ui.model.RowItem
 import com.softwareit.geographicatlas.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +30,6 @@ class CountriesListViewModel @Inject constructor(
     private fun getAllCountries() {
         remoteAllCountries.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1000)
             val countriesList = repository.remote.getAllCountries()
             val rowItems = mapToRowItems(countriesList)
             remoteAllCountries.postValue(Resource.Success(rowItems))
