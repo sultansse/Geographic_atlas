@@ -27,6 +27,7 @@ class CountryDetails : Fragment() {
     private val viewModel: CountryDetailsViewModel by viewModels()
     private var _binding: FragmentCountryDetailsBinding? = null
     private val binding get() = _binding!!
+    private var mapLink: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,48 +45,51 @@ class CountryDetails : Fragment() {
         val args: CountryDetailsArgs by navArgs()
         val countryCode = args.countryCode
         val countryName = args.countryName
-        lateinit var mapLink: String
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title = countryName
 
-        viewModel.onViewCreatedCountryCode(countryCode)
+        viewModel.onLoadCountryDetails(countryCode)
 
-        viewModel.remoteCountry.observe(viewLifecycleOwner) { countries ->
-            if (countries.isNotEmpty()) {
-                val country = countries[0]
-                mapLink = country.maps.googleMaps
-                bindCountryDetails(country)
-            }
-        }
+        viewModel.remoteCountry.observe(viewLifecycleOwner, this::onRemoteCountryChanged)
 
         binding.capitalCoordinatesTv.setOnClickListener {
             Toast.makeText(requireContext(), "Opening Google Maps", Toast.LENGTH_SHORT).show()
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mapLink))
             startActivity(intent)
         }
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        mapLink = null
+    }
+
+    private fun onRemoteCountryChanged(countries: List<CountryNetworkModel>) {
+        val country = countries.firstOrNull()
+        country?.let {
+            mapLink = it.maps.googleMaps
+            bindCountryDetails(it)
+        }
     }
 
     private fun bindCountryDetails(country: CountryNetworkModel) {
         loadImgUrl(binding.flagIv, country.flags.png)
-        binding.capitalNameTv.text =
-            getColoredText("&#9679; Capital:${country.capital?.get(0) ?: "No capital"}", "CountryDetails")
-        binding.capitalCoordinatesTv.text =
-            getColoredText("&#9679; Capital Coordinates:${country.capitalInfo.latlng}", "CountryDetails")
-        binding.populationTv.text = getColoredText("&#9679; Population:${country.population}", "CountryDetails")
-        binding.areaTv.text = getColoredText("&#9679; Area:${country.area} km²", "CountryDetails")
-        val currencyString =
-            country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
-        binding.currenciesTv.text = getColoredText("&#9679; Currencies:$currencyString", "CountryDetails")
-        binding.regionTv.text =
-            getColoredText("&#9679; Region:${country.subregion ?: "No region"}", "CountryDetails")
-        binding.timezonesTv.text =
-            getColoredText("&#9679; Timezones:${country.timezones.joinToString("\n")}", "CountryDetails")
-    }
 
+        val capital = country.capital?.getOrNull(0) ?: "No capital"
+        binding.capitalNameTv.text = getColoredText("&#9679; Capital:$capital", "CountryDetails")
+        val capitalCoordinates = getColoredText("&#9679; Capital Coordinates:${country.capitalInfo.latlng}", "CountryDetails")
+        binding.capitalCoordinatesTv.text = capitalCoordinates
+
+        val populationText = getColoredText("&#9679; Population:${country.population}", "CountryDetails")
+        val areaText = getColoredText("&#9679; Area:${country.area} km²", "CountryDetails")
+        binding.populationTv.text = populationText
+        binding.areaTv.text = areaText
+
+        val currencyString = country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
+        binding.currenciesTv.text = getColoredText("&#9679; Currencies:$currencyString", "CountryDetails")
+
+        binding.regionTv.text = getColoredText("&#9679; Region:${country.subregion ?: "No region"}", "CountryDetails")
+        binding.timezonesTv.text = getColoredText("&#9679; Timezones:${country.timezones.joinToString("\n")}", "CountryDetails")
+    }
 }

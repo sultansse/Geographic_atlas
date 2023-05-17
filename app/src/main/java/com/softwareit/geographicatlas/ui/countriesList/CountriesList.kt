@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softwareit.geographicatlas.databinding.FragmentCountriesListBinding
 import com.softwareit.geographicatlas.ui.adapter.CountriesAdapter
+import com.softwareit.geographicatlas.ui.model.RowItem
 import com.softwareit.geographicatlas.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,40 +32,45 @@ class CountriesList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        observeCountryData()
+    }
 
-//        countriesService = RetrofitInstance.retrofit.create(CountriesService::class.java)
+    private fun setupRecyclerView() {
         countriesAdapter = CountriesAdapter()
-
         binding.countriesListRecyclerView.apply {
             adapter = countriesAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
 
-
+    private fun observeCountryData() {
         viewModel.remoteAllCountries.observe(viewLifecycleOwner) { status ->
             when (status) {
-                is Resource.Loading -> {
-                    binding.shimmerFrameLayout.startShimmer()
-                }
-
-                is Resource.Success -> {
-                    binding.shimmerFrameLayout.stopShimmer()
-                    binding.shimmerFrameLayout.visibility = View.GONE
-                    status.data?.let {
-                        binding.countriesListRecyclerView.visibility = View.VISIBLE
-                        countriesAdapter.submitList(it)
-                    }
-                }
-
-                else -> {
-                    binding.shimmerFrameLayout.stopShimmer()
-                    binding.shimmerFrameLayout.visibility = View.GONE
-                    binding.errorTv.visibility = View.VISIBLE
-                }
+                is Resource.Loading -> showLoadingState()
+                is Resource.Success -> showDataState(status.data)
+                else -> showErrorState()
             }
-
         }
+    }
 
+    private fun showLoadingState() {
+        binding.shimmerFrameLayout.startShimmer()
+    }
+
+    private fun showDataState(data: List<RowItem>?) {
+        binding.shimmerFrameLayout.stopShimmer()
+        binding.shimmerFrameLayout.visibility = View.GONE
+        if (data != null) {
+            binding.countriesListRecyclerView.visibility = View.VISIBLE
+            countriesAdapter.submitList(data)
+        }
+    }
+
+    private fun showErrorState() {
+        binding.shimmerFrameLayout.stopShimmer()
+        binding.shimmerFrameLayout.visibility = View.GONE
+        binding.errorTv.visibility = View.VISIBLE
     }
 
     override fun onResume() {
@@ -81,5 +87,4 @@ class CountriesList : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -9,6 +9,7 @@ import com.softwareit.geographicatlas.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,15 +18,18 @@ class CountryDetailsViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    fun onViewCreatedCountryCode(code: String) {
-        getCountryDetails(code)
-    }
-
     val remoteCountry: MutableLiveData<List<CountryNetworkModel>> = MutableLiveData()
 
-    private fun getCountryDetails(countryCode: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            remoteCountry.postValue(repository.remote.getCountryByCode(countryCode))
+    fun onLoadCountryDetails(code: String) {
+        viewModelScope.launch {
+            getCountryDetails(code)
         }
+    }
+
+    private suspend fun getCountryDetails(countryCode: String) {
+        val countryDetails = withContext(Dispatchers.IO) {
+            repository.remote.getCountryByCode(countryCode)
+        }
+        remoteCountry.postValue(countryDetails)
     }
 }

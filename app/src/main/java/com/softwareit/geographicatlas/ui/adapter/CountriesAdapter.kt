@@ -5,7 +5,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.softwareit.geographicatlas.R
 import com.softwareit.geographicatlas.databinding.CountryListItemBinding
+import com.softwareit.geographicatlas.databinding.HeaderLayoutBinding
 import com.softwareit.geographicatlas.ui.countriesList.CountriesListDirections
 import com.softwareit.geographicatlas.ui.model.Country
 import com.softwareit.geographicatlas.ui.model.RowItem
@@ -20,6 +20,7 @@ import com.softwareit.geographicatlas.utils.getColoredText
 import com.softwareit.geographicatlas.utils.loadImgUrl
 
 
+@RequiresApi(Build.VERSION_CODES.N)
 class CountriesAdapter :
     ListAdapter<RowItem, RecyclerView.ViewHolder>(CountryComparator()) {
 
@@ -33,102 +34,100 @@ class CountriesAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+
         return when (viewType) {
             COUNTRY_ROW -> {
-                val binding =
-                    CountryListItemBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
+                val binding = CountryListItemBinding.inflate(inflater, parent, false)
                 CountryViewHolder(binding)
             }
 
             HEADER_ROW -> {
-                val view =
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.header_layout, parent, false)
-                HeaderViewHolder(view)
+                val binding = HeaderLayoutBinding.inflate(inflater, parent, false)
+                HeaderViewHolder(binding)
             }
 
             else -> throw IllegalArgumentException("Invalid view type: $viewType")
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentItem = getItem(position)
 
         when (holder) {
             is CountryViewHolder -> {
                 val rowItem = currentItem as? RowItem.CountryWrapper
-                rowItem?.let {
-                    holder.bind(it.country)
-                }
+                holder.bind(rowItem?.country!!)
             }
 
             is HeaderViewHolder -> {
                 val headerWrapper = currentItem as? RowItem.HeaderWrapper
-                headerWrapper?.let {
-                    holder.bind(it.continents)
-                }
+                holder.bind(headerWrapper?.continent!!)
             }
         }
     }
 
-    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val headerTv: TextView = itemView.findViewById(R.id.header_tv)
+    class HeaderViewHolder(private val binding: HeaderLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(continent: String) {
-            headerTv.text = continent
+            binding.headerTv.text = continent
         }
     }
 
     inner class CountryViewHolder(private val binding: CountryListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @RequiresApi(Build.VERSION_CODES.N)
         @SuppressLint("SetTextI18n")
         fun bind(country: Country) {
+            setupClickListener(country)
+            bindCountryData(country)
+            bindExpandableView(country)
+            setupLearnMoreButton(country)
+        }
 
+        private fun setupClickListener(country: Country) {
             binding.rowLayout.setOnClickListener {
                 country.isCollapsed = !country.isCollapsed
                 notifyItemChanged(bindingAdapterPosition)
             }
+        }
 
+        private fun bindCountryData(country: Country) {
             binding.apply {
-                // Bind the country data to the views in your layout
                 loadImgUrl(flagIv, country.flags.png)
                 countryNameTv.text = country.name.common
                 capitalNameTv.text = country.capital?.get(0) ?: "NO capital"
-                tvPopulation.text = getColoredText("Population:${country.population}","CountriesAdapter")
-                tvArea.text = getColoredText("Area:${country.area} km²","CountriesAdapter")
+                tvPopulation.text =
+                    getColoredText("Population:${country.population}", "CountriesAdapter")
+                tvArea.text = getColoredText("Area:${country.area} km²", "CountriesAdapter")
                 val currencyString =
                     country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
-                tvCurrencies.text = getColoredText("Currencies:$currencyString","CountriesAdapter")
+                tvCurrencies.text = getColoredText("Currencies:$currencyString", "CountriesAdapter")
+            }
+        }
 
-                expandViewLayout.apply {
-                    if (country.isCollapsed) {
-                        // Collapse the view
-                        visibility = View.GONE
-                        dropdownIv.setImageResource(R.drawable.baseline_expand_more_24)
-                    } else {
-                        // Expand the view
-                        visibility = View.VISIBLE
-                        dropdownIv.setImageResource(R.drawable.baseline_expand_less_24)
-
-                    }
+        private fun bindExpandableView(country: Country) {
+            binding.expandViewLayout.apply {
+                if (country.isCollapsed) {
+                    visibility = View.GONE
+                    binding.dropdownIv.setImageResource(R.drawable.baseline_expand_more_24)
+                } else {
+                    visibility = View.VISIBLE
+                    binding.dropdownIv.setImageResource(R.drawable.baseline_expand_less_24)
                 }
+            }
+        }
 
-                learnMoreBtn.setOnClickListener {
-                    val countryCode = country.cca2
-                    val countryName = country.name.common
-                    val action = CountriesListDirections.actionCountriesListToCountryDetails(
-                        countryCode,
-                        countryName
-                    )
-                    findNavController(itemView).navigate(action)
-                }
+        private fun setupLearnMoreButton(country: Country) {
+            binding.learnMoreBtn.setOnClickListener {
+                val countryCode = country.cca2
+                val countryName = country.name.common
+                val action = CountriesListDirections.actionCountriesListToCountryDetails(
+                    countryCode,
+                    countryName
+                )
+                findNavController(itemView).navigate(action)
             }
         }
     }
