@@ -16,6 +16,7 @@ import com.softwareit.geographicatlas.utils.getColoredText
 import com.softwareit.geographicatlas.utils.loadImgUrl
 import dagger.hilt.android.AndroidEntryPoint
 
+@RequiresApi(Build.VERSION_CODES.N)
 @AndroidEntryPoint
 class CountryDetails : Fragment() {
 

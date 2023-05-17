@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
+                android:background="@color/shimmerColor"
                 android:contentDescription="@string/flag"
                 android:scaleType="centerCrop" />
 
@@ -38,10 +39,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
+            android:background="@color/shimmerColor"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:flow_horizontalAlign="start"
             app:layout_constraintEnd_toStartOf="@id/dropdown_iv"
@@ -53,11 +55,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
+            android:background="@color/shimmerColor"
             android:textColor="?attr/colorOnPrimary"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/expand_view_layout"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@id/dropdown_iv"
-            app:layout_constraintStart_toEndOf="@id/flag_card" />
+            app:layout_constraintStart_toEndOf="@id/flag_card"
+            app:layout_constraintTop_toBottomOf="@id/country_name_tv" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/dropdown_iv"
@@ -81,13 +84,14 @@
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/flag_card">
+            app:layout_constraintTop_toBottomOf="@id/capital_name_tv">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_population"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
+                android:background="@color/shimmerColor"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp" />
 
@@ -96,6 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
+                android:background="@color/shimmerColor"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp" />
 
@@ -104,6 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
+                android:background="@color/shimmerColor"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp" />
 

@@ -6,14 +6,69 @@
     android:orientation="vertical"
     tools:context=".ui.countriesList.CountriesList">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        tools:visibility="gone">
+
+        <!-- Adding 15 rows of recyclerview -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/header_layout_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+
+            <include layout="@layout/country_list_item_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <TextView
+        android:id="@+id/error_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="¯\_(ツ)_/¯ oops, something went wrong"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="40sp"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/countries_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:orientation="vertical"
         android:scrollbars="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:listitem="@layout/country_list_item" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
