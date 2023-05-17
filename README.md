@@ -45,17 +45,17 @@ https://youtu.be/fMF067I-pNg
 3.✅ DONE  Each element in the list should be able to switch between expanded/collapsed state when the user clicks the expand/collapse image button. By default all the list elements are in the collapsed state.
 
 4.✅ DONE  The collapsed element should show the following data:
-   - a.✅ DONE  Country flag obtained from the “flags → png” property.
-   - b.✅ DONE  Country name obtained from the “name → common” property.
-   - c.✅ DONE  Country capital name obtained “capital” property.
+    - a.✅ DONE  Country flag obtained from the “flags → png” property.
+    - b.✅ DONE  Country name obtained from the “name → common” property.
+    - c.✅ DONE  Country capital name obtained “capital” property.
 
 5.✅ DONE  The expanded element should show the following data:
-   - a.✅ DONE  Country flag obtained from the “flags → png” property.
-   - b.✅ DONE  Country name obtained from the “name → common” property.
-   - c.✅ DONE  Country capital name obtained from the “capital” property.
-   - d.✅ DONE  Country population obtained from the “population” property.
-   - e.✅ DONE  List of country’s currencies obtained from the “currencies[i] → name” property separated by comma.
-   - f.✅ DONE  “Learn more” button to open the CountryDetails screen.
+    - a.✅ DONE  Country flag obtained from the “flags → png” property.
+    - b.✅ DONE  Country name obtained from the “name → common” property.
+    - c.✅ DONE  Country capital name obtained from the “capital” property.
+    - d.✅ DONE  Country population obtained from the “population” property.
+    - e.✅ DONE  List of country’s currencies obtained from the “currencies[i] → name” property separated by comma.
+    - f.✅ DONE  “Learn more” button to open the CountryDetails screen.
 
 6.✅ DONE  Each of the list elements should provide a segue to the CountryDetails screen showing the corresponding country details. It should be opened by tapping the “Learn more” button in the expanded element state
 
@@ -63,13 +63,13 @@ https://youtu.be/fMF067I-pNg
 1.✅ DONE  Should provide the detailed information of the currently selected country. The data should be obtained by calling https://restcountries.com/v3.1/alpha/[countryCode/cca2] where the countryCode/cca2 parameter is obtained from the cca2 property of the “Get all countries” API. All the data should be viewable for the user; thus, if some of the data goes beyond the screen bottom, it should be made scrollable.
 
 2.✅ DONE  The screen should show the following data:
-    - a.✅ DONE  Toolbar with the “Back” button allowing the user to go back to the CountriesList screen. Toolbars title contains “Country name” from the “name → common” property.
-    - b.✅ DONE  Large country flag image obtained from the “flags → png” property.
-    - c.✅ DONE  The set of “Title + value” fields consisting of the following data:
-        - i.  ✅ DONE  “Capital” + value obtained from the “capital” property.
-        - ii. ✅ DONE  “Capital coordinates” + values obtained from “capitalInfo → latlng” property separated by comma.
-        - iii.✅ DONE  “Population” + value obtained from the “population” property.
-        - iv. ✅ DONE  “Area” + value obtained from the “area” property.
-        - v.  ✅ DONE  “Currencies” + values obtained from the “currencies[i] → name” property separated by line breaks.
-        - vi. ✅ DONE  “Region” + value obtained from the “subregion” property.
-        - vii.✅ DONE  “Timezones” + values obtained from the “timezones” property separated by line breaks.
+     - a.✅ DONE  Toolbar with the “Back” button allowing the user to go back to the CountriesList screen. Toolbars title contains “Country name” from the “name → common” property.
+     - b.✅ DONE  Large country flag image obtained from the “flags → png” property.
+     - c.✅ DONE  The set of “Title + value” fields consisting of the following data:
+         - i.  ✅ DONE  “Capital” + value obtained from the “capital” property.
+         - ii. ✅ DONE  “Capital coordinates” + values obtained from “capitalInfo → latlng” property separated by comma.
+         - iii.✅ DONE  “Population” + value obtained from the “population” property.
+         - iv. ✅ DONE  “Area” + value obtained from the “area” property.
+         - v.  ✅ DONE  “Currencies” + values obtained from the “currencies[i] → name” property separated by line breaks.
+         - vi. ✅ DONE  “Region” + value obtained from the “subregion” property.
+         - vii.✅ DONE  “Timezones” + values obtained from the “timezones” property separated by line breaks.
