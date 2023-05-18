@@ -55,7 +55,7 @@
             android:layout_marginHorizontal="12dp"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/expand_view_layout"
+            app:layout_constraintTop_toBottomOf="@id/country_name_tv"
             app:layout_constraintEnd_toStartOf="@id/dropdown_iv"
             app:layout_constraintStart_toEndOf="@id/flag_card" />
 
