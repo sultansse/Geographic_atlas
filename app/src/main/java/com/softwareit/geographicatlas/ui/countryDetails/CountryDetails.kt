@@ -77,35 +77,8 @@ class CountryDetails : Fragment() {
         val country = countries.first()
         country.let {
             mapLink = it.maps.googleMaps
-//            bindCountryDetails(country)
+            bindCountryDetails(country)
         }
-        loadImgUrl(binding.flagIv, country.flags.png)
-
-        val capital = country.capital?.getOrNull(0) ?: "No capital"
-        binding.capitalNameTv.text = getColoredText("&#9679; Capital:$capital", "CountryDetails")
-        val capitalCoordinates = getColoredText(
-            "&#9679; Capital Coordinates:${country.capitalInfo.latlng}",
-            "CountryDetails"
-        )
-        binding.capitalCoordinatesTv.text = capitalCoordinates
-
-        val populationText =
-            getColoredText("&#9679; Population:${country.population}", "CountryDetails")
-        val areaText = getColoredText("&#9679; Area:${country.area} km²", "CountryDetails")
-        binding.populationTv.text = populationText
-        binding.areaTv.text = areaText
-
-        val currencyString =
-            country.currencies?.entries?.joinToString("\n") { "${it.value.name} (${it.value.symbol}) (${it.key})" }
-        binding.currenciesTv.text =
-            getColoredText("&#9679; Currencies:$currencyString", "CountryDetails")
-
-        binding.regionTv.text =
-            getColoredText("&#9679; Region:${country.subregion ?: "No region"}", "CountryDetails")
-        binding.timezonesTv.text = getColoredText(
-            "&#9679; Timezones:${country.timezones.joinToString("\n")}",
-            "CountryDetails"
-        )
     }
 
     private fun showLoadingState() {
@@ -115,12 +88,9 @@ class CountryDetails : Fragment() {
     private fun showDataState(data: List<CountryNetworkModel>?) {
         binding.shimmerFrameLayout.stopShimmer()
         binding.shimmerFrameLayout.visibility = View.GONE
-
-
-//        onRemoteCountryChanged(data!!)
         binding.countryDetailsLayout.visibility = View.VISIBLE
+        onRemoteCountryChanged(data!!)
     }
-
 
     private fun showErrorState() {
         binding.shimmerFrameLayout.stopShimmer()
