@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation.findNavController
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.softwareit.geographicatlas.R
 import com.softwareit.geographicatlas.databinding.CountryListItemBinding
@@ -22,7 +22,7 @@ import com.softwareit.geographicatlas.utils.loadImgUrl
 
 @RequiresApi(Build.VERSION_CODES.N)
 class CountriesAdapter :
-    ListAdapter<RowItem, RecyclerView.ViewHolder>(CountryComparator()) {
+    PagingDataAdapter<RowItem, RecyclerView.ViewHolder>(CountryComparator()) {
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
@@ -57,12 +57,12 @@ class CountriesAdapter :
         when (holder) {
             is CountryViewHolder -> {
                 val rowItem = currentItem as? RowItem.CountryWrapper
-                holder.bind(rowItem?.country!!)
+                rowItem?.country?.let { holder.bind(it) }
             }
 
             is HeaderViewHolder -> {
                 val headerWrapper = currentItem as? RowItem.HeaderWrapper
-                holder.bind(headerWrapper?.continent!!)
+                headerWrapper?.continent?.let { holder.bind(it) }
             }
         }
     }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.softwareit.geographicatlas.databinding.FragmentCountriesListBinding
 import com.softwareit.geographicatlas.ui.adapter.CountriesAdapter
@@ -51,7 +52,10 @@ class CountriesList : Fragment() {
         viewModel.remoteAllCountries.observe(viewLifecycleOwner) { status ->
             when (status) {
                 is Resource.Loading -> showLoadingState()
-                is Resource.Success -> showDataState(status.data)
+                is Resource.Success -> {
+                    val pagingData = PagingData.from(status.data ?: emptyList())
+                    showDataState(pagingData)
+                }
                 else -> showErrorState()
             }
         }
@@ -61,14 +65,14 @@ class CountriesList : Fragment() {
         binding.shimmerFrameLayout.startShimmer()
     }
 
-    private fun showDataState(data: List<RowItem>?) {
+
+    private fun showDataState(data: PagingData<RowItem>) {
         binding.shimmerFrameLayout.stopShimmer()
         binding.shimmerFrameLayout.visibility = View.GONE
-        if (data != null) {
-            binding.countriesListRecyclerView.visibility = View.VISIBLE
-            countriesAdapter.submitList(data)
-        }
+        binding.countriesListRecyclerView.visibility = View.VISIBLE
+        countriesAdapter.submitData(lifecycle, data)
     }
+
 
     private fun showErrorState() {
         binding.shimmerFrameLayout.stopShimmer()

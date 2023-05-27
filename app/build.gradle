@@ -46,6 +46,9 @@ android {
 
 dependencies {
 
+    def paging_version = "3.1.0" // Use the latest version
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
     // Shimmer
     implementation "com.facebook.shimmer:shimmer:0.5.0"
 
